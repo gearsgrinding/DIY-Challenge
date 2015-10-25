@@ -22,7 +22,7 @@ NSMutableString *followingUrl;
 NSMutableString *status;
 NSMutableString *call;
 - (void)viewDidLoad {
-    
+    [self setTitle:@"Following"];
     following = [[NSMutableArray alloc] init];
     titles = [[NSMutableArray alloc] init];
     ids = [[NSMutableArray alloc] init];

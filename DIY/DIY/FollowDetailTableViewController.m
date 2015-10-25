@@ -24,6 +24,10 @@
 - (void)viewDidLoad {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *follow  = [defaults objectForKey:@"follow"];
+    NSMutableString *Title = [NSMutableString stringWithCapacity:50];
+    [Title appendString:follow];
+    [Title appendString:@"'s projects"];
+    [self setTitle:Title];
     //NSLog(@"response: %d", [titleId intValue]);
     titles = [[NSMutableArray alloc] init];
     ids = [[NSMutableArray alloc] init];

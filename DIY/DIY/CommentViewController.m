@@ -155,9 +155,4 @@
     // Pass the selected object to the new view controller.
     
 }
-
-
-- (IBAction)Back:(id)sender {
-     [self performSegueWithIdentifier:@"Back" sender:self];
-}
 @end
