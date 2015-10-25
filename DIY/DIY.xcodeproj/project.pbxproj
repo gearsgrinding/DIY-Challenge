@@ -17,6 +17,11 @@
 		6E6DE7F91BDC21E600814CE2 /* DIYUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6DE7F81BDC21E600814CE2 /* DIYUITests.m */; };
 		6EC654191BDC27F900057635 /* DIYTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC654181BDC27F900057635 /* DIYTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		6EC6541C1BDC98C300057635 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC6541B1BDC98C300057635 /* CommentViewController.m */; settings = {ASSET_TAGS = (); }; };
+		6EF993101BDD459500C72C7A /* PostCommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF9930F1BDD459500C72C7A /* PostCommentController.m */; settings = {ASSET_TAGS = (); }; };
+		6EF993131BDD6A9E00C72C7A /* FollowerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF993121BDD6A9E00C72C7A /* FollowerTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		6EF993161BDD832000C72C7A /* FollowDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF993151BDD832000C72C7A /* FollowDetailTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		6EF993191BDD844C00C72C7A /* FollowCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF993181BDD844C00C72C7A /* FollowCommentTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		6EF9931C1BDD897F00C72C7A /* FollowPostCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF9931B1BDD897F00C72C7A /* FollowPostCommentViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +62,16 @@
 		6EC654181BDC27F900057635 /* DIYTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYTableViewController.m; sourceTree = "<group>"; };
 		6EC6541A1BDC98C300057635 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		6EC6541B1BDC98C300057635 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
+		6EF9930E1BDD459500C72C7A /* PostCommentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostCommentController.h; sourceTree = "<group>"; };
+		6EF9930F1BDD459500C72C7A /* PostCommentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostCommentController.m; sourceTree = "<group>"; };
+		6EF993111BDD6A9E00C72C7A /* FollowerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowerTableViewController.h; sourceTree = "<group>"; };
+		6EF993121BDD6A9E00C72C7A /* FollowerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowerTableViewController.m; sourceTree = "<group>"; };
+		6EF993141BDD832000C72C7A /* FollowDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowDetailTableViewController.h; sourceTree = "<group>"; };
+		6EF993151BDD832000C72C7A /* FollowDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowDetailTableViewController.m; sourceTree = "<group>"; };
+		6EF993171BDD844C00C72C7A /* FollowCommentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowCommentTableViewController.h; sourceTree = "<group>"; };
+		6EF993181BDD844C00C72C7A /* FollowCommentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowCommentTableViewController.m; sourceTree = "<group>"; };
+		6EF9931A1BDD897F00C72C7A /* FollowPostCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowPostCommentViewController.h; sourceTree = "<group>"; };
+		6EF9931B1BDD897F00C72C7A /* FollowPostCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowPostCommentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +127,16 @@
 				6E6DE7D91BDC21E500814CE2 /* ViewController.h */,
 				6E6DE7DA1BDC21E500814CE2 /* ViewController.m */,
 				6E6DE7DC1BDC21E600814CE2 /* Main.storyboard */,
+				6EF993171BDD844C00C72C7A /* FollowCommentTableViewController.h */,
+				6EF993181BDD844C00C72C7A /* FollowCommentTableViewController.m */,
+				6EF993141BDD832000C72C7A /* FollowDetailTableViewController.h */,
+				6EF993151BDD832000C72C7A /* FollowDetailTableViewController.m */,
+				6EF993111BDD6A9E00C72C7A /* FollowerTableViewController.h */,
+				6EF993121BDD6A9E00C72C7A /* FollowerTableViewController.m */,
+				6EF9931A1BDD897F00C72C7A /* FollowPostCommentViewController.h */,
+				6EF9931B1BDD897F00C72C7A /* FollowPostCommentViewController.m */,
+				6EF9930E1BDD459500C72C7A /* PostCommentController.h */,
+				6EF9930F1BDD459500C72C7A /* PostCommentController.m */,
 				6EC654171BDC27F900057635 /* DIYTableViewController.h */,
 				6EC654181BDC27F900057635 /* DIYTableViewController.m */,
 				6EC6541A1BDC98C300057635 /* CommentViewController.h */,
@@ -283,8 +308,13 @@
 				6EC654191BDC27F900057635 /* DIYTableViewController.m in Sources */,
 				6E6DE7DB1BDC21E500814CE2 /* ViewController.m in Sources */,
 				6E6DE7D81BDC21E500814CE2 /* AppDelegate.m in Sources */,
+				6EF993161BDD832000C72C7A /* FollowDetailTableViewController.m in Sources */,
 				6E6DE7D51BDC21E500814CE2 /* main.m in Sources */,
+				6EF993191BDD844C00C72C7A /* FollowCommentTableViewController.m in Sources */,
+				6EF993131BDD6A9E00C72C7A /* FollowerTableViewController.m in Sources */,
+				6EF9931C1BDD897F00C72C7A /* FollowPostCommentViewController.m in Sources */,
 				6EC6541C1BDC98C300057635 /* CommentViewController.m in Sources */,
+				6EF993101BDD459500C72C7A /* PostCommentController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

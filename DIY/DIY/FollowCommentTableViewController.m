@@ -1,42 +1,48 @@
 //
-//  DIYTableViewController.m
+//  FollowCommentTableViewController.m
 //  DIY
 //
-//  Created by Alex Hu on 10/24/15.
+//  Created by Alex Hu on 10/25/15.
 //  Copyright © 2015 DIY. All rights reserved.
 //
 
-#import "DIYTableViewController.h"
+#import "FollowCommentTableViewController.h"
 
-@interface DIYTableViewController ()
+@interface FollowCommentTableViewController ()
 @property (nonatomic, strong) NSMutableData *responseData;
 
 @end
 
-@implementation DIYTableViewController{
-    NSMutableArray *titles;
-    NSMutableArray *ids;
+@implementation FollowCommentTableViewController{
+    NSMutableArray *commentsArray;
+    NSMutableArray *makersArray;
     NSInteger *count;
-    NSMutableArray *urlArray;
+    NSData *url;
     NSMutableString *apiUrl;
     
 }
 - (void)viewDidLoad {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *follow  = [defaults objectForKey:@"follow"];
+    [self setTitle:@"Comments"];
+    NSString *titleId  = [defaults objectForKey:@"followid"];
+    //NSLog(@"response: %d", [titleId intValue]);
+    NSString *string = [NSString stringWithFormat:@"%d", [titleId intValue]];
     
-    titles = [[NSMutableArray alloc] init];
-    ids = [[NSMutableArray alloc] init];
-    urlArray = [[NSMutableArray alloc] init];
-    NSLog(@"viewdidload");
+    commentsArray = [[NSMutableArray alloc] init];
+    makersArray = [[NSMutableArray alloc] init];
+    //NSLog(@"viewdidload");
     self.responseData = [NSMutableData data];
     apiUrl = [NSMutableString stringWithCapacity:50];
     [apiUrl appendString:@"http://api.diy.org/makers/"];
-    [apiUrl appendString:@"hiveworking"];
-    [apiUrl appendString:@"/projects"];
+    [apiUrl appendString:follow];
+    [apiUrl appendString:@"/projects/"];
+    [apiUrl appendString: string];
+    [apiUrl appendString:@"/comments"];
     NSURLRequest *request = [NSURLRequest requestWithURL:
                              [NSURL URLWithString:apiUrl]];
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
-    count = [titles count];
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [refresh addTarget:self
@@ -47,7 +53,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    NSLog(@"didReceiveResponse");
+    // NSLog(@"didReceiveResponse");
     [self.responseData setLength:0];
 }
 
@@ -56,13 +62,13 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"didFailWithError");
+    //NSLog(@"didFailWithError");
     NSLog([NSString stringWithFormat:@"Connection failed: %@", [error description]]);
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSLog(@"connectionDidFinishLoading");
-    NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
+    // NSLog(@"connectionDidFinishLoading");
+    //NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
     
     // convert to JSON
     NSError *Error = nil;
@@ -70,23 +76,16 @@
     
     // extract specific value...
     NSArray *responses = [res objectForKey:@"response"];
-    //NSLog(@"response: %@", responses);
+    
     for (NSDictionary *response in responses) {
-        NSDictionary *id = [response objectForKey:@"id"];
-        [ids addObject:id];
-        NSString *title = [response objectForKey:@"title"];
-        [titles addObject:title];
-        NSDictionary *clips = [response objectForKey:@"clips"];
+        NSArray *comments = [response objectForKey:@"html"];
+        [commentsArray addObject:comments];
+        NSDictionary *makers = [response objectForKeyedSubscript:@"maker"];
+        NSDictionary *avatar = [makers objectForKey:@"avatar"];
+        NSDictionary *icon = [avatar objectForKey:@"icon"];
+        NSString *url = [icon objectForKey:@"url"];
+        [makersArray addObject:url];
         
-        //NSLog(@"response: %@", clips);
-        for (NSDictionary *clip in clips) {
-            
-            NSDictionary *assets = [clip objectForKey:@"assets"];
-            
-            NSDictionary *original = [assets objectForKey:@"ios_560"];
-            [urlArray addObject:[original objectForKey:@"url"]];
-            
-            }
     }
     [self refreshUI];
     
@@ -106,7 +105,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return [titles count];
+    return [commentsArray count];
 }
 
 -(void)refreshView:(UIRefreshControl *)refresh {
@@ -122,18 +121,19 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell5" forIndexPath:indexPath];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell];
     }
-    UILabel *title = (UILabel *)[cell viewWithTag:150];
-    UIImageView *icon = (UIImage *)[cell viewWithTag:151];
+    UILabel *title = (UILabel *)[cell viewWithTag:161];
+    UIImageView *user = (UIImageView *) [cell viewWithTag:162];
     // Configure the cell...
-    NSURL *nsurl = [NSURL URLWithString:[urlArray objectAtIndex:indexPath.row]];
+    NSURL *nsurl = [NSURL URLWithString:[makersArray objectAtIndex:indexPath.row]];
+    // NSLog(@"nsurl %@",makersArray);
     NSData *imageData = [NSData dataWithContentsOfURL:nsurl];
     UIImage *image = [UIImage imageWithData:imageData];
-    [icon setImage:image];
-    NSString *temp=[titles objectAtIndex:indexPath.row];
+    [user setImage:image];
+    NSString *temp=[commentsArray objectAtIndex:indexPath.row];
     title.text = temp;
     //cell.textLabel.text = [titles objectAtIndex:indexPath.row];
     return cell;
@@ -141,10 +141,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSString *temp= [ids objectAtIndex:indexPath.row];
+    NSString *temp= [commentsArray objectAtIndex:indexPath.row];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:temp forKey:@"id"];
-    NSLog(@"temp: %@", temp);
+    
+    [defaults setObject:temp forKey:@"followcomment"];
     
     
 }
@@ -154,7 +154,11 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
 }
 
 
+- (IBAction)Back:(id)sender {
+    [self performSegueWithIdentifier:@"Back" sender:self];
+}
 @end

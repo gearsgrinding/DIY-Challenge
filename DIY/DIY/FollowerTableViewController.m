@@ -1,49 +1,54 @@
 //
-//  DIYTableViewController.m
+//  FollowerTableViewController.m
 //  DIY
 //
-//  Created by Alex Hu on 10/24/15.
+//  Created by Alex Hu on 10/25/15.
 //  Copyright © 2015 DIY. All rights reserved.
 //
 
-#import "DIYTableViewController.h"
+#import "FollowerTableViewController.h"
 
-@interface DIYTableViewController ()
+@interface FollowerTableViewController ()
 @property (nonatomic, strong) NSMutableData *responseData;
-
 @end
 
-@implementation DIYTableViewController{
-    NSMutableArray *titles;
-    NSMutableArray *ids;
-    NSInteger *count;
-    NSMutableArray *urlArray;
-    NSMutableString *apiUrl;
-    
-}
+@implementation FollowerTableViewController
+NSMutableArray *following;
+NSMutableArray *titles;
+NSMutableArray *ids;
+NSInteger *count;
+NSMutableArray *urlArray;
+NSMutableString *followingUrl;
+NSMutableString *status;
+NSMutableString *call;
 - (void)viewDidLoad {
     
+    following = [[NSMutableArray alloc] init];
     titles = [[NSMutableArray alloc] init];
     ids = [[NSMutableArray alloc] init];
     urlArray = [[NSMutableArray alloc] init];
+    status = [[NSMutableString alloc] init];
+    call = [[NSMutableString alloc] init];
     NSLog(@"viewdidload");
     self.responseData = [NSMutableData data];
-    apiUrl = [NSMutableString stringWithCapacity:50];
-    [apiUrl appendString:@"http://api.diy.org/makers/"];
-    [apiUrl appendString:@"hiveworking"];
-    [apiUrl appendString:@"/projects"];
+    followingUrl = [NSMutableString stringWithCapacity:50];
+    [followingUrl appendString:@"http://api.diy.org/makers/"];
+    [followingUrl appendString:@"hiveworking"];
+    [followingUrl appendString:@"/following"];
     NSURLRequest *request = [NSURLRequest requestWithURL:
-                             [NSURL URLWithString:apiUrl]];
+                             [NSURL URLWithString:followingUrl]];
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    count = [titles count];
+   // count = [titles count];
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [refresh addTarget:self
                 action:@selector(refreshView:)
       forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refresh;
-    [super viewDidLoad];
+
+
+      [super viewDidLoad];
+    [self refreshUI];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -72,24 +77,16 @@
     NSArray *responses = [res objectForKey:@"response"];
     //NSLog(@"response: %@", responses);
     for (NSDictionary *response in responses) {
-        NSDictionary *id = [response objectForKey:@"id"];
-        [ids addObject:id];
-        NSString *title = [response objectForKey:@"title"];
-        [titles addObject:title];
-        NSDictionary *clips = [response objectForKey:@"clips"];
-        
-        //NSLog(@"response: %@", clips);
-        for (NSDictionary *clip in clips) {
-            
-            NSDictionary *assets = [clip objectForKey:@"assets"];
-            
-            NSDictionary *original = [assets objectForKey:@"ios_560"];
-            [urlArray addObject:[original objectForKey:@"url"]];
-            
-            }
+        NSArray *urls = [response objectForKey:@"url"];
+        [following addObject:urls];
+        NSDictionary *avatar = [response objectForKey:@"avatar"];
+        NSDictionary *icon = [avatar objectForKey:@"icon"];
+        NSString *picURL = [icon objectForKey:@"url"];
+        [urlArray addObject:picURL];
+        NSLog(@"urlArray %@",urlArray);
+    
     }
     [self refreshUI];
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -106,7 +103,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return [titles count];
+    return [following count];
 }
 
 -(void)refreshView:(UIRefreshControl *)refresh {
@@ -122,18 +119,19 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell];
     }
-    UILabel *title = (UILabel *)[cell viewWithTag:150];
-    UIImageView *icon = (UIImage *)[cell viewWithTag:151];
+    UILabel *title = (UILabel *)[cell viewWithTag:156];
+    UIImageView *icon = (UIImage *)[cell viewWithTag:157];
     // Configure the cell...
     NSURL *nsurl = [NSURL URLWithString:[urlArray objectAtIndex:indexPath.row]];
     NSData *imageData = [NSData dataWithContentsOfURL:nsurl];
     UIImage *image = [UIImage imageWithData:imageData];
     [icon setImage:image];
-    NSString *temp=[titles objectAtIndex:indexPath.row];
+    NSString *temp=[following
+                    objectAtIndex:indexPath.row];
     title.text = temp;
     //cell.textLabel.text = [titles objectAtIndex:indexPath.row];
     return cell;
@@ -141,9 +139,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSString *temp= [ids objectAtIndex:indexPath.row];
+    NSString *temp= [following objectAtIndex:indexPath.row];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:temp forKey:@"id"];
+    [defaults setObject:temp forKey:@"follow"];
     NSLog(@"temp: %@", temp);
     
     
@@ -155,6 +153,5 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-
 
 @end

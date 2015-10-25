@@ -1,19 +1,19 @@
 //
-//  DIYTableViewController.m
+//  FollowDetailTableViewController.m
 //  DIY
 //
-//  Created by Alex Hu on 10/24/15.
+//  Created by Alex Hu on 10/25/15.
 //  Copyright © 2015 DIY. All rights reserved.
 //
 
-#import "DIYTableViewController.h"
+#import "FollowDetailTableViewController.h"
 
-@interface DIYTableViewController ()
+@interface FollowDetailTableViewController ()
 @property (nonatomic, strong) NSMutableData *responseData;
 
 @end
 
-@implementation DIYTableViewController{
+@implementation FollowDetailTableViewController{
     NSMutableArray *titles;
     NSMutableArray *ids;
     NSInteger *count;
@@ -22,7 +22,9 @@
     
 }
 - (void)viewDidLoad {
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *follow  = [defaults objectForKey:@"follow"];
+    //NSLog(@"response: %d", [titleId intValue]);
     titles = [[NSMutableArray alloc] init];
     ids = [[NSMutableArray alloc] init];
     urlArray = [[NSMutableArray alloc] init];
@@ -30,7 +32,7 @@
     self.responseData = [NSMutableData data];
     apiUrl = [NSMutableString stringWithCapacity:50];
     [apiUrl appendString:@"http://api.diy.org/makers/"];
-    [apiUrl appendString:@"hiveworking"];
+    [apiUrl appendString:follow];
     [apiUrl appendString:@"/projects"];
     NSURLRequest *request = [NSURLRequest requestWithURL:
                              [NSURL URLWithString:apiUrl]];
@@ -86,7 +88,7 @@
             NSDictionary *original = [assets objectForKey:@"ios_560"];
             [urlArray addObject:[original objectForKey:@"url"]];
             
-            }
+        }
     }
     [self refreshUI];
     
@@ -122,12 +124,12 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell4" forIndexPath:indexPath];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell];
     }
-    UILabel *title = (UILabel *)[cell viewWithTag:150];
-    UIImageView *icon = (UIImage *)[cell viewWithTag:151];
+    UILabel *title = (UILabel *)[cell viewWithTag:159];
+    UIImageView *icon = (UIImage *)[cell viewWithTag:160];
     // Configure the cell...
     NSURL *nsurl = [NSURL URLWithString:[urlArray objectAtIndex:indexPath.row]];
     NSData *imageData = [NSData dataWithContentsOfURL:nsurl];
@@ -143,7 +145,7 @@
     
     NSString *temp= [ids objectAtIndex:indexPath.row];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:temp forKey:@"id"];
+    [defaults setObject:temp forKey:@"followid"];
     NSLog(@"temp: %@", temp);
     
     

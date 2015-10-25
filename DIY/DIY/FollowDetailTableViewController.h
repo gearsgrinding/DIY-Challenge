@@ -1,5 +1,5 @@
 //
-//  CommentViewController.h
+//  FollowDetailTableViewController.h
 //  DIY
 //
 //  Created by Alex Hu on 10/25/15.
@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommentViewController : UITableViewController
-
+@interface FollowDetailTableViewController : UITableViewController
 
 @end

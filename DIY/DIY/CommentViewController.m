@@ -15,19 +15,22 @@
 
 @implementation CommentViewController{
     NSMutableArray *commentsArray;
+    NSMutableArray *makersArray;
     NSInteger *count;
     NSData *url;
     NSMutableString *apiUrl;
     
 }
 - (void)viewDidLoad {
+    [self setTitle:@"Comments"];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *titleId  = [defaults objectForKey:@"id"];
-    NSLog(@"response: %d", [titleId intValue]);
+    //NSLog(@"response: %d", [titleId intValue]);
     NSString *string = [NSString stringWithFormat:@"%d", [titleId intValue]];
     
     commentsArray = [[NSMutableArray alloc] init];
-    NSLog(@"viewdidload");
+    makersArray = [[NSMutableArray alloc] init];
+    //NSLog(@"viewdidload");
     self.responseData = [NSMutableData data];
     apiUrl = [NSMutableString stringWithCapacity:50];
     [apiUrl appendString:@"http://api.diy.org/makers/"];
@@ -49,7 +52,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    NSLog(@"didReceiveResponse");
+   // NSLog(@"didReceiveResponse");
     [self.responseData setLength:0];
 }
 
@@ -58,13 +61,13 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"didFailWithError");
+    //NSLog(@"didFailWithError");
     NSLog([NSString stringWithFormat:@"Connection failed: %@", [error description]]);
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSLog(@"connectionDidFinishLoading");
-    NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
+   // NSLog(@"connectionDidFinishLoading");
+    //NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
     
     // convert to JSON
     NSError *Error = nil;
@@ -76,6 +79,12 @@
     for (NSDictionary *response in responses) {
         NSArray *comments = [response objectForKey:@"html"];
         [commentsArray addObject:comments];
+        NSDictionary *makers = [response objectForKeyedSubscript:@"maker"];
+         NSDictionary *avatar = [makers objectForKey:@"avatar"];
+         NSDictionary *icon = [avatar objectForKey:@"icon"];
+         NSString *url = [icon objectForKey:@"url"];
+        [makersArray addObject:url];
+        
     }
     [self refreshUI];
     
@@ -118,7 +127,8 @@
     UILabel *title = (UILabel *)[cell viewWithTag:153];
     UIImageView *user = (UIImageView *) [cell viewWithTag:154];
     // Configure the cell...
-    NSURL *nsurl = [NSURL URLWithString:url];
+    NSURL *nsurl = [NSURL URLWithString:[makersArray objectAtIndex:indexPath.row]];
+    // NSLog(@"nsurl %@",makersArray);
     NSData *imageData = [NSData dataWithContentsOfURL:nsurl];
     UIImage *image = [UIImage imageWithData:imageData];
     [user setImage:image];
@@ -147,4 +157,7 @@
 }
 
 
+- (IBAction)Back:(id)sender {
+     [self performSegueWithIdentifier:@"Back" sender:self];
+}
 @end
