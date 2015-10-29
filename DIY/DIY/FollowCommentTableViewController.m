@@ -125,8 +125,13 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell];
     }
+    UILabel *autoformat = [[UILabel alloc] initWithFrame:CGRectMake(110,70+80*indexPath.row, 300, 200)];
+
     UILabel *title = (UILabel *)[cell viewWithTag:161];
     UIImageView *user = (UIImageView *) [cell viewWithTag:162];
+    autoformat.numberOfLines = 2;
+    
+    autoformat.backgroundColor = [UIColor clearColor];
     // Configure the cell...
     NSURL *nsurl = [NSURL URLWithString:[makersArray objectAtIndex:indexPath.row]];
     // NSLog(@"nsurl %@",makersArray);
@@ -134,7 +139,11 @@
     UIImage *image = [UIImage imageWithData:imageData];
     [user setImage:image];
     NSString *temp=[commentsArray objectAtIndex:indexPath.row];
-    title.text = temp;
+    title.text = @"";
+    autoformat.text =temp;
+    [autoformat sizeToFit];
+    
+    [self.view addSubview:autoformat];
     //cell.textLabel.text = [titles objectAtIndex:indexPath.row];
     return cell;
 }

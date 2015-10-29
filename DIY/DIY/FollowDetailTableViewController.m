@@ -132,15 +132,26 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell];
     }
-    UILabel *title = (UILabel *)[cell viewWithTag:159];
+    UILabel *autoformat = [[UILabel alloc] initWithFrame:CGRectMake(110,70+80*indexPath.row, 300, 200)];
+    UILabel *title= (UILabel *)[cell viewWithTag:159];
     UIImageView *icon = (UIImage *)[cell viewWithTag:160];
+    autoformat.numberOfLines = 0;
+    
+   autoformat.backgroundColor = [UIColor clearColor];
+    
+    
     // Configure the cell...
     NSURL *nsurl = [NSURL URLWithString:[urlArray objectAtIndex:indexPath.row]];
     NSData *imageData = [NSData dataWithContentsOfURL:nsurl];
     UIImage *image = [UIImage imageWithData:imageData];
     [icon setImage:image];
     NSString *temp=[titles objectAtIndex:indexPath.row];
-    title.text = temp;
+    title.text = @"";
+    autoformat.text =temp;
+    [autoformat sizeToFit];
+    
+    [self.view addSubview:autoformat];
+
     //cell.textLabel.text = [titles objectAtIndex:indexPath.row];
     return cell;
 }

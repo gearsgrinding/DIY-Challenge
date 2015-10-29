@@ -133,7 +133,14 @@
     UIImage *image = [UIImage imageWithData:imageData];
     [user setImage:image];
     NSString *temp=[commentsArray objectAtIndex:indexPath.row];
-    title.text = temp;
+    title.text = @"";
+    UILabel *autoformat = [[UILabel alloc] initWithFrame:CGRectMake(110,70+80*indexPath.row, 300, 200)];
+    autoformat.numberOfLines = 3;
+    autoformat.backgroundColor = [UIColor clearColor];
+    autoformat.text =temp;
+    [autoformat sizeToFit];
+    
+    [self.view addSubview:autoformat];
     //cell.textLabel.text = [titles objectAtIndex:indexPath.row];
     return cell;
 }

@@ -123,6 +123,8 @@ NSMutableString *call;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell];
     }
+    UILabel *autoformat = [[UILabel alloc] initWithFrame:CGRectMake(110,70+80*indexPath.row, 300, 200)];
+
     UILabel *title = (UILabel *)[cell viewWithTag:156];
     UIImageView *icon = (UIImage *)[cell viewWithTag:157];
     // Configure the cell...
@@ -132,7 +134,13 @@ NSMutableString *call;
     [icon setImage:image];
     NSString *temp=[following
                     objectAtIndex:indexPath.row];
-    title.text = temp;
+    title.text = @"";
+    autoformat.numberOfLines = 0;
+    autoformat.backgroundColor = [UIColor clearColor];
+    autoformat.text =temp;
+    [autoformat sizeToFit];
+    
+    [self.view addSubview:autoformat];
     //cell.textLabel.text = [titles objectAtIndex:indexPath.row];
     return cell;
 }

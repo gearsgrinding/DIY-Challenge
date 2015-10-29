@@ -134,7 +134,14 @@
     UIImage *image = [UIImage imageWithData:imageData];
     [icon setImage:image];
     NSString *temp=[titles objectAtIndex:indexPath.row];
-    title.text = temp;
+    title.text = @"";
+    UILabel *autoformat = [[UILabel alloc] initWithFrame:CGRectMake(110,70+80*indexPath.row, 300, 200)];
+    autoformat.numberOfLines = 0;
+    autoformat.backgroundColor = [UIColor clearColor];
+    autoformat.text =temp;
+    [autoformat sizeToFit];
+    
+    [self.view addSubview:autoformat];
     //cell.textLabel.text = [titles objectAtIndex:indexPath.row];
     return cell;
    
