@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PostCommentController : UIViewController
-@property (weak, nonatomic) IBOutlet UITextField *comment;
 
 @end

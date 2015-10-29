@@ -137,6 +137,7 @@
     title.text = temp;
     //cell.textLabel.text = [titles objectAtIndex:indexPath.row];
     return cell;
+   
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -154,6 +155,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+
 }
 
 
